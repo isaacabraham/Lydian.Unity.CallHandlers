@@ -7,7 +7,7 @@ namespace Lydian.Unity.CallHandlers.Logging
 {
 	public class LoggingHandler : ICallHandler
 	{
-		private readonly Lydian.Unity.CallHandlers.Logging.CompositeLogger broadcaster;
+		private readonly CompositeLogger broadcaster;
 		public Int32 Order { get; set; }
 
 		/// <summary>
@@ -15,7 +15,7 @@ namespace Lydian.Unity.CallHandlers.Logging
 		/// </summary>
 		public LoggingHandler(IUnityContainer container)
 		{
-			broadcaster = container.Resolve<Lydian.Unity.CallHandlers.Logging.CompositeLogger>();
+			broadcaster = container.Resolve<CompositeLogger>();
 		}
 
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
