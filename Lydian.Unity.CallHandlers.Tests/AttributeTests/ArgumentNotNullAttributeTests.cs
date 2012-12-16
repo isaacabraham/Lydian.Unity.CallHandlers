@@ -2,7 +2,7 @@ using Lydian.Unity.CallHandlers.Validation;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lydian.Unity.CallHandlers.Tests
+namespace Lydian.Unity.CallHandlers.Tests.AttributeTests
 {
 	[TestClass]
 	public class ArgumentNotNullAttributeTests

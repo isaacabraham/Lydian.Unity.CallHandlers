@@ -1,19 +1,19 @@
-using Lydian.Unity.CallHandlers.Logging;
+﻿using Lydian.Unity.CallHandlers.Logging;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lydian.Unity.CallHandlers.Tests
+namespace Lydian.Unity.CallHandlers.Tests.AttributeTests
 {
 	[TestClass]
-	public class TimingAttributeTests
+	public class LoggingAttributeTests
 	{
-		private TimingAttribute timingAttribute;
+		private LoggingAttribute loggingAttribute;
 		private UnityContainer unityContainer;
-
+		
 		[TestInitialize]
 		public void Setup()
 		{
-			timingAttribute = new TimingAttribute();
+			loggingAttribute = new LoggingAttribute();
 			unityContainer = new UnityContainer();
 		}
 
@@ -21,19 +21,19 @@ namespace Lydian.Unity.CallHandlers.Tests
 		public void CreateHandler_ReturnsTheHandler()
 		{
 			// Act
-			var handler = timingAttribute.CreateHandler(unityContainer);
+			var handler = loggingAttribute.CreateHandler(unityContainer);
 
 			// Assert
-			Assert.IsInstanceOfType(handler, typeof(TimingHandler));
+			Assert.IsInstanceOfType(handler, typeof(LoggingHandler));
 		}
 
 		[TestMethod]
 		public void CreateHandler_HandlerCreated_SetsTheOrder()
 		{
-			timingAttribute.Order = 24;
+			loggingAttribute.Order = 24;
 
 			// Act
-			var handler = timingAttribute.CreateHandler(unityContainer);
+			var handler = loggingAttribute.CreateHandler(unityContainer);
 
 			// Assert
 			Assert.AreEqual(24, handler.Order);

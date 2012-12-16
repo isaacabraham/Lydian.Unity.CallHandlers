@@ -65,11 +65,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ArgumentNotNullAttributeTests.cs" />
-    <Compile Include="CachingAttributeTests.cs" />
-    <Compile Include="LoggingAttributeTests.cs" />
+    <Compile Include="AttributeTests\ArgumentNotNullAttributeTests.cs" />
+    <Compile Include="AttributeTests\CachingAttributeTests.cs" />
+    <Compile Include="AttributeTests\LoggingAttributeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimingAttributeTests.cs" />
+    <Compile Include="AttributeTests\TimingAttributeTests.cs" />
+    <Compile Include="Validation\ArgumentNotNullHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lydian.Unity.CallHandlers\Lydian.Unity.CallHandlers.csproj">

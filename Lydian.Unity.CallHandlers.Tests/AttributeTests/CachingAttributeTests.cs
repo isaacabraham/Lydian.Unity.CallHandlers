@@ -1,19 +1,19 @@
-﻿using Lydian.Unity.CallHandlers.Logging;
+using Lydian.Unity.CallHandlers.Caching;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lydian.Unity.CallHandlers.Tests
+namespace Lydian.Unity.CallHandlers.Tests.AttributeTests
 {
 	[TestClass]
-	public class LoggingAttributeTests
+	public class CachingAttributeTests
 	{
-		private LoggingAttribute loggingAttribute;
+		private CachingAttribute cachingAttribute;
 		private UnityContainer unityContainer;
-		
+
 		[TestInitialize]
 		public void Setup()
 		{
-			loggingAttribute = new LoggingAttribute();
+			cachingAttribute = new CachingAttribute();
 			unityContainer = new UnityContainer();
 		}
 
@@ -21,19 +21,19 @@ namespace Lydian.Unity.CallHandlers.Tests
 		public void CreateHandler_ReturnsTheHandler()
 		{
 			// Act
-			var handler = loggingAttribute.CreateHandler(unityContainer);
+			var handler = cachingAttribute.CreateHandler(unityContainer);
 
 			// Assert
-			Assert.IsInstanceOfType(handler, typeof(LoggingHandler));
+			Assert.IsInstanceOfType(handler, typeof(CachingHandler));
 		}
 
 		[TestMethod]
 		public void CreateHandler_HandlerCreated_SetsTheOrder()
 		{
-			loggingAttribute.Order = 24;
+			cachingAttribute.Order = 24;
 
 			// Act
-			var handler = loggingAttribute.CreateHandler(unityContainer);
+			var handler = cachingAttribute.CreateHandler(unityContainer);
 
 			// Assert
 			Assert.AreEqual(24, handler.Order);
