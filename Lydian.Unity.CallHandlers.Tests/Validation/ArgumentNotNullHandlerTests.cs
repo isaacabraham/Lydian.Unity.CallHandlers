@@ -1,11 +1,11 @@
 ﻿using Lydian.Unity.CallHandlers.Validation;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.InterceptionExtension;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Lydian.Unity.CallHandlers.Tests.Validation
 {
+
 	[TestClass]
 	public class ArgumentNotNullHandlerTests
 	{
@@ -16,15 +16,7 @@ namespace Lydian.Unity.CallHandlers.Tests.Validation
 		public void Setup()
 		{
 			container = new UnityContainer();
-			container.AddNewExtension<Interception>();
-			container.Configure<Interception>()
-					 .AddPolicy("TestPolicy")
-					 .AddCallHandler<ArgumentNotNullHandler>()
-					 .AddMatchingRule(new MemberNameMatchingRule("*"));
-
-			container.RegisterType<ArgumentNotNullTest>(new InterceptionBehavior<PolicyInjectionBehavior>(),
-													    new Interceptor<VirtualMethodInterceptor>());
-			sample = container.Resolve<ArgumentNotNullTest>();
+			sample = container.RegisterTypeWithCallHandler<ArgumentNotNullHandler, ArgumentNotNullTest>();
 		}
 
 		[TestMethod]
