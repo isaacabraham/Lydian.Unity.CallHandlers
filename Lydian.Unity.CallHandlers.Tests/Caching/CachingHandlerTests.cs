@@ -3,10 +3,10 @@ using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Lydian.Unity.CallHandlers.Tests.Validation
+namespace Lydian.Unity.CallHandlers.Tests.Caching
 {
 	[TestClass]
-	public class CacheHandlerTests
+	public class CachingHandlerTests
 	{
 		private UnityContainer container;
 		private CachingHandlerTestClass sample;
@@ -23,6 +23,23 @@ namespace Lydian.Unity.CallHandlers.Tests.Validation
 		{
 			// Assert
 			AssertIsCached(() => sample.NoArguments());
+		}
+
+		[TestMethod]
+		public void NoArguments_ThrowsException_CachesIt()
+		{
+			var exceptionsRaised = 0;
+
+			// Act
+			try { sample.ThrowException(); }
+			catch { exceptionsRaised++; }
+
+			try { sample.ThrowException(); }
+			catch { exceptionsRaised++; }
+
+			// Assert
+			Assert.AreEqual(1, sample.NumberOfCalls);
+			Assert.AreEqual(2, exceptionsRaised);
 		}
 
 		[TestMethod]
@@ -151,10 +168,15 @@ namespace Lydian.Unity.CallHandlers.Tests.Validation
 				IncrementCall();
 				return generator.Next();
 			}
-			public virtual Int32 ComplexArgument(CacheHandlerTests.ComparableObject complexObject)
+			public virtual Int32 ComplexArgument(CachingHandlerTests.ComparableObject complexObject)
 			{
 				IncrementCall();
 				return generator.Next();
+			}
+			public virtual void ThrowException()
+			{
+				IncrementCall();
+				throw new NotImplementedException();
 			}
 		}
 

@@ -31,11 +31,10 @@ namespace Lydian.Unity.CallHandlers.Caching
 			switch (cachedCall.Item1)
 			{
 				case CacheHitResult.Success:
-					Console.WriteLine("Cache hit for {0}.", methodName);
-					return input.CreateMethodReturn(cachedCall.Item2);
+					return cachedCall.Item2;
 				case CacheHitResult.Failure:
 					var result = getNext()(input, getNext);
-					cache.AddToCache(methodName, callSiteDetails, result.ReturnValue);
+					cache.AddToCache(methodName, callSiteDetails, result);
 					return result;
 				default:
 					throw new Exception("Unknown cache status.");

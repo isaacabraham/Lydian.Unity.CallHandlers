@@ -1,7 +1,7 @@
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
-namespace Lydian.Unity.CallHandlers.Tests.Validation
+namespace Lydian.Unity.CallHandlers.Tests
 {
 	public static class HandlerHelpers
 	{

@@ -66,9 +66,9 @@ namespace ConsoleApplication1
 		{
 			var aDepts = service.GetDepartments("a");
 			Console.WriteLine();
-			var bDepts = service.GetDepartments("b");
-			Console.WriteLine();
 			aDepts = service.GetDepartments("a");
+			Console.WriteLine();
+			var bDepts = service.GetDepartments("b");
 			Console.WriteLine();
 			bDepts = service.GetDepartments("b");
 			Console.WriteLine();
@@ -81,13 +81,13 @@ namespace ConsoleApplication1
 		{
 			var adderOne = service.GetNumber(1, 5);
 			Console.WriteLine();
-			var adderTwo = service.GetNumber(1, 4);
-			Console.WriteLine();
-			var adderThree = service.GetNumber(2, 5);
-			Console.WriteLine();
 			adderOne = service.GetNumber(1, 5);
 			Console.WriteLine();
+			var adderTwo = service.GetNumber(1, 4);
+			Console.WriteLine();
 			adderTwo = service.GetNumber(1, 4);
+			Console.WriteLine();
+			var adderThree = service.GetNumber(2, 5);
 			Console.WriteLine();
 			adderThree = service.GetNumber(2, 5);
 			Console.WriteLine();
