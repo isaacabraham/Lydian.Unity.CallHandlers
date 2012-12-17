@@ -1,10 +1,12 @@
-
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using System;
 
 namespace Lydian.Unity.CallHandlers.Logging
 {
+	/// <summary>
+	/// A call handler to log the entrance and exits of individual methods. Listeners should implement the IMethodLogListener interface and place it into Unity as a named registration.
+	/// </summary>
 	public class LoggingHandler : ICallHandler
 	{
 		private readonly CompositeLogger broadcaster;

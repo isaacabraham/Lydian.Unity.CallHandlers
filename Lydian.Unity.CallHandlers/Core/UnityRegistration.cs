@@ -7,8 +7,12 @@ namespace Lydian.Unity.CallHandlers.Core
 	/// <summary>
 	/// Contains key registrations for the Unity Call Handlers.
 	/// </summary>
-	public static class UnityCallHandlerRegistration
+	public static class UnityRegistration
 	{
+		/// <summary>
+		/// Registers key singletons into the Unity Container required by the various Unity Call Handlers.
+		/// </summary>
+		/// <param name="container"></param>
 		public static void Register(IUnityContainer container)
 		{
 			container.RegisterType<MethodCache>(new ContainerControlledLifetimeManager());

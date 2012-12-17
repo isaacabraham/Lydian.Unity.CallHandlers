@@ -4,6 +4,9 @@ using System;
 
 namespace Lydian.Unity.CallHandlers.Core
 {
+	/// <summary>
+	/// A CallHandler attribute that can be ordered.
+	/// </summary>
 	public abstract class OrderedHandlerAttribute : HandlerAttribute
 	{
 		public Int32 Order { get; set; }

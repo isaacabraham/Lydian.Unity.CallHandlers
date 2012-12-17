@@ -3,7 +3,10 @@ using System;
 
 namespace ConsoleApplication1
 {
-	public class ConsoleLogger : IMethodLogPublisher
+	/// <summary>
+	/// A console logger for method start / exit.
+	/// </summary>
+	public class ConsoleLogger : IMethodLogListener
 	{
 		public void OnMethodStarted(CallSiteEventArgs e)
 		{

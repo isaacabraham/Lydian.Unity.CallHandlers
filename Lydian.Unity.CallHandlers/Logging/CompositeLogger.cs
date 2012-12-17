@@ -1,7 +1,7 @@
 using Lydian.Unity.CallHandlers.Core;
 namespace Lydian.Unity.CallHandlers.Logging
 {
-	internal class CompositeLogger : Composite<IMethodLogPublisher>
+	internal class CompositeLogger : Composite<IMethodLogListener>
 	{
 		public void BroadcastStart(CallSiteEventArgs e)
 		{

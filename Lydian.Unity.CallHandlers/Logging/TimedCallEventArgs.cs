@@ -3,6 +3,9 @@ using System.Reflection;
 
 namespace Lydian.Unity.CallHandlers.Logging
 {
+	/// <summary>
+	/// Represents the timed results of a completed method call.
+	/// </summary>
 	public class TimedCallEventArgs : CallSiteEventArgs
 	{
 		public TimeSpan CallDuration { get; private set; }
@@ -10,8 +13,7 @@ namespace Lydian.Unity.CallHandlers.Logging
 		/// <summary>
 		/// Initializes a new instance of the TimedCallEventArgs class.
 		/// </summary>
-		public TimedCallEventArgs(Object target, MethodBase method, TimeSpan callDuration)
-			: base(target, method)
+		internal TimedCallEventArgs(Object target, MethodBase method, TimeSpan callDuration) : base(target, method)
 		{
 			CallDuration = callDuration;
 		}

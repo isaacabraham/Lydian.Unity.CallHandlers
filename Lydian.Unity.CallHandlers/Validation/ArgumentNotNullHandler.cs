@@ -3,6 +3,9 @@ using System;
 
 namespace Lydian.Unity.CallHandlers.Validation
 {
+	/// <summary>
+	/// A handler to ensure that all reference type arguments are non-null. If any arguments are null, an ArgumentNullException is raised.
+	/// </summary>
 	public class ArgumentNotNullHandler : ICallHandler
 	{
 		public Int32 Order { get; set; }

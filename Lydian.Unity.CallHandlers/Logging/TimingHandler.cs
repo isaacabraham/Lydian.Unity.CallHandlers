@@ -6,10 +6,13 @@ using System.Diagnostics;
 
 namespace Lydian.Unity.CallHandlers.Logging
 {
+	/// <summary>
+	/// A call handler to time how long individual methods take. Listeners should implement the IMethodTimeListener interface and place it into Unity as a named registration.
+	/// </summary>
 	public class TimingHandler : ICallHandler
 	{
 		public Int32 Order { get; set; }
-		private readonly Lydian.Unity.CallHandlers.Logging.CompositeTimer broadcaster;
+		private readonly CompositeTimer broadcaster;
 
 		/// <summary>
 		/// Initializes a new instance of the TimingHandler class.
@@ -17,7 +20,7 @@ namespace Lydian.Unity.CallHandlers.Logging
 		/// <param name="publisher">The publisher.</param>
 		public TimingHandler(IUnityContainer container)
 		{
-			broadcaster = container.Resolve<Lydian.Unity.CallHandlers.Logging.CompositeTimer>();
+			broadcaster = container.Resolve<CompositeTimer>();
 		}
 
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
