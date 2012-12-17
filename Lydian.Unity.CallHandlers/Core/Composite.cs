@@ -7,18 +7,18 @@ namespace Lydian.Unity.CallHandlers.Core
 {
 	internal abstract class Composite<T>
 	{
-		private IEnumerable<T> Publishers { get; set; }
+		private IEnumerable<T> publishers;
 
 		[InjectionMethod]
 		public void LoadPublishers(IUnityContainer container)
 		{
-			Publishers = container.ResolveAll<T>()
+			publishers = container.ResolveAll<T>()
 								  .ToArray();
 		}
 
 		protected void Broadcast(Action<T> broadcastAction)
 		{
-			foreach (var publisher in Publishers)
+			foreach (var publisher in publishers)
 				broadcastAction(publisher);
 		}
 	}
