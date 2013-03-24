@@ -1,8 +1,7 @@
+using Lydian.Unity.CallHandlers.Core;
 using Lydian.Unity.CallHandlers.Logging;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
 
 namespace Lydian.Unity.CallHandlers.Tests.Logging
 {
@@ -10,49 +9,31 @@ namespace Lydian.Unity.CallHandlers.Tests.Logging
 	public class TimingHandlerTests
 	{
 		private UnityContainer container;
+		private IMethodTimePublisher publisher;
 
 		[TestInitialize]
 		public void Setup()
 		{
 			container = new UnityContainer();
+			UnityRegistration.Register(container);
 			HandlerHelpers.RegisterTypeWithCallHandler<TimingHandler, SampleTimingClass>(container);
+			publisher = container.Resolve<IMethodTimePublisher>();
 		}
 
 		[TestMethod]
-		public void MethodCalled_OneListener_BroadcastsOnComplete()
+		public void MethodCalled_Always_BroadcastsOnComplete()
 		{
-			var listener = CreateListener("TEST");
 			var sample = container.Resolve<SampleTimingClass>();
+			TimedCallEventArgs args = null;
+			publisher.OnMethodCompleted += (o, e) => args = e;
 
 			// Act
 			sample.Foo();
 
 			// Assert
-			listener.Verify(l => l.OnMethodCompleted(It.Is<TimedCallEventArgs>(e => e.Target.Equals(sample)
-																				 && e.Method.Name.Equals("Foo")
-																				 && e.CallDuration.TotalMilliseconds > 0)));
-		}
-
-		[TestMethod]
-		public void MethodCalled_ManyListeners_BroadcastsOnComplete()
-		{
-			var first = CreateListener("TEST");
-			var second = CreateListener("TEST2");
-			var sample = container.Resolve<SampleTimingClass>();
-
-			// Act
-			sample.Foo();
-
-			// Assert
-			first.Verify(l => l.OnMethodCompleted(It.IsAny<TimedCallEventArgs>()));
-			second.Verify(l => l.OnMethodCompleted(It.IsAny<TimedCallEventArgs>()));
-		}
-
-		private Mock<IMethodTimeListener> CreateListener(String registrationName)
-		{
-			var listener = new Mock<IMethodTimeListener>();
-			container.RegisterInstance(registrationName, listener.Object);
-			return listener;
+			Assert.AreEqual("Foo", args.Method.Name);
+			Assert.AreSame(sample, args.Target);
+			Assert.AreNotEqual(0, args.CallDuration.TotalMilliseconds);
 		}
 
 		public class SampleTimingClass

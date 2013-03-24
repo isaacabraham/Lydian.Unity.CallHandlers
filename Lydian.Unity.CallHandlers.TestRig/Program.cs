@@ -24,8 +24,10 @@ namespace ConsoleApplication1
 				// Required to use Unity Call Handlers.
 				UnityRegistration.Register(container);
 
-				RegisterSampleLoggers(container);
+				// Sample subscribers			
+				new SampleSubscriber().Subscribe(container);
 				
+				// Create our container
 				container.RegisterType<IMyService, MyService>(new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<InterfaceInterceptor>());
 				var service = container.Resolve<IMyService>();
 
@@ -38,6 +40,7 @@ namespace ConsoleApplication1
 				{
 					service.NullableArgument(null);
 					service.OptionalArgument();
+					service.GetDepartments("TEST");
 					service.GetDepartments(null);
 				}
 				catch (Exception ex)
@@ -108,15 +111,6 @@ namespace ConsoleApplication1
 			Console.WriteLine();
 			var differentValues = service.ComplexTypeArgument(new ComplexType { Name = "Isaaced", Age = 35 });
 			Console.WriteLine();
-		}
-		/// <summary>
-		/// Illustrates how to register different listeners with MethodLog and MethodTime handlers.
-		/// </summary>
-		/// <param name="container"></param>
-		private static void RegisterSampleLoggers(UnityContainer container)
-		{
-			container.RegisterType<IMethodLogListener, ConsoleLogger>("Console");
-			container.RegisterType<IMethodTimeListener, ConsoleTimer>("Console");
 		}
 	}
 }

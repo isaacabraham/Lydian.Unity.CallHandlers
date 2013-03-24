@@ -1,15 +1,15 @@
 
+using System;
 namespace Lydian.Unity.CallHandlers.Logging
 {
 	/// <summary>
-	/// Represents a listener to TimingHandler messages.
+	/// Exposes method timing events.
 	/// </summary>
-	public interface IMethodTimeListener
+	public interface IMethodTimePublisher
 	{
 		/// <summary>
-		/// Called whenever a method has completed.
+		/// Fired whenever a method completes.
 		/// </summary>
-		/// <param name="eventArgs">Timing details of the method call.</param>
-		void OnMethodCompleted(TimedCallEventArgs eventArgs);
+		event EventHandler<TimedCallEventArgs> OnMethodCompleted;
 	}
 }

@@ -1,3 +1,4 @@
+using Lydian.Unity.CallHandlers.Core;
 using Lydian.Unity.CallHandlers.Logging;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +16,7 @@ namespace Lydian.Unity.CallHandlers.Tests.AttributeTests
 		{
 			timingAttribute = new TimingAttribute();
 			unityContainer = new UnityContainer();
+			UnityRegistration.Register(unityContainer);
 		}
 
 		[TestMethod]

@@ -16,8 +16,8 @@ namespace Lydian.Unity.CallHandlers.Core
 		public static void Register(IUnityContainer container)
 		{
 			container.RegisterType<MethodCache>(new ContainerControlledLifetimeManager());
-			container.RegisterType<CompositeLogger>(new ContainerControlledLifetimeManager());
-			container.RegisterType<CompositeTimer>(new ContainerControlledLifetimeManager());
+			container.RegisterType<IMethodLogPublisher, MethodLogPublisher>(new ContainerControlledLifetimeManager());
+			container.RegisterType<IMethodTimePublisher, MethodTimePublisher>(new ContainerControlledLifetimeManager());
 		}
 	}
 }

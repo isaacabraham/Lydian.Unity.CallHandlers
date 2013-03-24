@@ -1,4 +1,5 @@
-﻿using Lydian.Unity.CallHandlers.Logging;
+﻿using Lydian.Unity.CallHandlers.Core;
+using Lydian.Unity.CallHandlers.Logging;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,6 +16,7 @@ namespace Lydian.Unity.CallHandlers.Tests.AttributeTests
 		{
 			loggingAttribute = new LoggingAttribute();
 			unityContainer = new UnityContainer();
+			UnityRegistration.Register(unityContainer);
 		}
 
 		[TestMethod]

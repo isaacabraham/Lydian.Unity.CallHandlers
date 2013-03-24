@@ -1,8 +1,7 @@
-﻿using Lydian.Unity.CallHandlers.Logging;
+﻿using Lydian.Unity.CallHandlers.Core;
+using Lydian.Unity.CallHandlers.Logging;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
 
 namespace Lydian.Unity.CallHandlers.Tests.Logging
 {
@@ -10,60 +9,45 @@ namespace Lydian.Unity.CallHandlers.Tests.Logging
 	public class LoggingHandlerTests
 	{
 		private UnityContainer container;
+		private IMethodLogPublisher publisher;
 		
 		[TestInitialize]
 		public void Setup()
 		{
 			container = new UnityContainer();
+			UnityRegistration.Register(container);
 			HandlerHelpers.RegisterTypeWithCallHandler<LoggingHandler, SampleLoggingClass>(container);
+			publisher = container.Resolve<IMethodLogPublisher>();
 		}
 
 		[TestMethod]
-		public void MethodCalled_OneListener_BroadcastsOnStart()
+		public void MethodCalled_Always_BroadcastsOnStart()
 		{
-			var listener = CreateListener("TEST");
 			var sample = container.Resolve<SampleLoggingClass>();
+			CallSiteEventArgs args = null;
+			publisher.OnMethodStarted += (o, e) => args = e;
 
 			// Act
 			sample.Foo();
 			
 			// Assert
-			listener.Verify(l => l.OnMethodStarted(It.Is<CallSiteEventArgs>(e => e.Target.Equals(sample) && e.Method.Name.Equals("Foo"))));
+			Assert.AreEqual("Foo", args.Method.Name);
+			Assert.AreSame(sample, args.Target);
 		}
 
 		[TestMethod]
-		public void MethodCalled_OneListener_BroadcastsOnComplete()
+		public void MethodCalled_Always_BroadcastsOnComplete()
 		{
-			var listener = CreateListener("TEST");
 			var sample = container.Resolve<SampleLoggingClass>();
+			CallSiteEventArgs args = null;
+			publisher.OnMethodCompleted += (o, e) => args = e;
 
 			// Act
 			sample.Foo();
 
 			// Assert
-			listener.Verify(l => l.OnMethodCompleted(It.Is<CallSiteEventArgs>(e => e.Target.Equals(sample) && e.Method.Name.Equals("Foo"))));
-		}
-
-		[TestMethod]
-		public void MethodCalled_ManyListeners_BroadcastsOnStart()
-		{
-			var first = CreateListener("TEST");
-			var second = CreateListener("TEST2");
-			var sample = container.Resolve<SampleLoggingClass>();
-
-			// Act
-			sample.Foo();
-
-			// Assert
-			first.Verify(l => l.OnMethodCompleted(It.IsAny<CallSiteEventArgs>()));
-			second.Verify(l => l.OnMethodCompleted(It.IsAny<CallSiteEventArgs>()));
-		}
-
-		private Mock<IMethodLogListener> CreateListener(String registrationName)
-		{
-			var listener = new Mock<IMethodLogListener>();
-			container.RegisterInstance(registrationName, listener.Object);
-			return listener;
+			Assert.AreEqual("Foo", args.Method.Name);
+			Assert.AreSame(sample, args.Target);
 		}
 
 		public class SampleLoggingClass

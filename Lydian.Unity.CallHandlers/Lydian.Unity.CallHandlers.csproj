@@ -67,12 +67,11 @@
     <Compile Include="Caching\ArgumentCollection.cs" />
     <Compile Include="Caching\MethodCache.cs" />
     <Compile Include="ArgumentNotNullAttribute.cs" />
+    <Compile Include="Logging\MethodLogPublisher.cs" />
+    <Compile Include="Logging\MethodTimePublisher.cs" />
     <Compile Include="Validation\ArgumentNotNullHandler.cs" />
     <Compile Include="Logging\CallSiteEventArgs.cs" />
-    <Compile Include="Logging\CompositeTimer.cs" />
-    <Compile Include="Core\Composite.cs" />
-    <Compile Include="Logging\CompositeLogger.cs" />
-    <Compile Include="Logging\IMethodLogListener.cs" />
+    <Compile Include="Logging\IMethodLogPublisher.cs" />
     <Compile Include="Logging\IMethodTimeListener.cs" />
     <Compile Include="LoggingAttribute.cs" />
     <Compile Include="Logging\LoggingHandler.cs" />
