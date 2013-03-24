@@ -1,0 +1,420 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>Lydian.Unity.Automapper</name>
+  </assembly>
+  <members>
+    <member name="T:Lydian.Unity.Automapper.DoNotMapAttribute">
+      <summary>
+            Marks an interface or concrete class to explicitly be ignored by the auto-mapper.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.MapAsAttribute">
+      <summary>
+            Specifies the name of the mapping that this concrete should be registered into Unity as. For multimaps, if this attribute is not specified, the full name of the type is used.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.MapAsAttribute.#ctor(System.String)">
+      <summary>
+            Initializes a new instance of the NamedMappingAttribute class.
+            </summary>
+      <param name="mappingName">The name of this mapping.</param>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.MapAsAttribute.MappingName">
+      <summary>
+            The name of the mapping.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.MultimapAttribute">
+      <summary>
+            Marks an interface as a multi-map i.e. many concrete types can be mapped to this interface. Each registration into Unity will be named based on the full name of the concrete type.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.PolicyInjectionAttribute">
+      <summary>
+            Specifies that this interface should be registered to take part in policy injection. This is the same as manually applying a Unity type registration with both the PolicyInjection InjectionBehaviour and the Interface Interceptor.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.DuplicateMappingException">
+      <summary>
+            The exception raised when a concrete type has attempted to be mapped to an interface that is already registered into Unity.
+            </summary>
+    </member>
+    <member name="F:Lydian.Unity.Automapper.DuplicateMappingException.MULTIPLE_CONCRETES_ERROR_MESSAGE">
+      <summary>
+            The error message to display when two concrete types are mapped to the same interface in a single-mapping environment.
+            </summary>
+    </member>
+    <member name="F:Lydian.Unity.Automapper.DuplicateMappingException.MULTIPLE_NAMES_ERROR_MESSAGE">
+      <summary>
+            The error message to display when two concrete types are mapped to the same interface and the same name in a multi-mapping environment.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.DuplicateMappingException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>
+            When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with information about the exception.
+            </summary>
+      <param name="info">
+            The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown. 
+            </param>
+      <param name="context">
+            The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination. 
+            </param>
+      <exception cref="T:System.ArgumentNullException">
+            The <paramref name="info" /> parameter is a null reference (Nothing in Visual Basic). 
+            </exception>
+      <filterpriority>2</filterpriority>
+      <PermissionSet>
+        <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" />
+        <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />
+      </PermissionSet>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.DuplicateMappingException.#ctor(System.Type,System.Type,System.Type)">
+      <summary>
+            Creates a new instance of the Duplicate Mapping Exception.
+            </summary>
+      <param name="mappingInterface">The source mapping interface.</param>
+      <param name="mappedConcrete">The concrete that the interface is already mapped to.</param>
+      <param name="duplicateMappingConcrete">The duplicate interface that attempted to map to it.</param>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.DuplicateMappingException.#ctor">
+      <summary>
+            Creates a new instance of the Duplicate Mapping Exception.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.DuplicateMappingException.#ctor(System.String)">
+      <summary>
+            Creates a new instance of the Duplicate Mapping Exception.
+            </summary>
+      <param name="message">The message to use.</param>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.DuplicateMappingException.#ctor(System.String,System.Exception)">
+      <summary>
+            Creates a new instance of the Duplicate Mapping Exception.
+            </summary>
+      <param name="message">The message to use.</param>
+      <param name="inner">The inner exception details.</param>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.DuplicateMappingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>
+            Creates a new instance of the Duplicate Mapping Exception.
+            </summary>
+      <param name="info">The serialization info to add exception details to.</param>
+      <param name="context">The streaming context.</param>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.DuplicateMappingException.DuplicateMappingConcrete">
+      <summary>
+            The concrete that failed to map in as either the interface or the mapping name it was mapping to has already been registered into Unity.
+            </summary>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.DuplicateMappingException.MappedConcrete">
+      <summary>
+            The concrete that has already been mapped into Unity against the interface.
+            </summary>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.DuplicateMappingException.MappingInterface">
+      <summary>
+            The interface that the concrete was attempting to map against and has already been registered into Unity.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.TypeMapping">
+      <summary>
+            Represents a potential mapping between two types.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.TypeMapping.#ctor(System.Type,System.Type,System.Func{System.Boolean},System.Boolean)">
+      <summary>
+            Creates a new Mapping.
+            </summary>
+      <param name="fromInterface">The interface to map from.</param>
+      <param name="toConcrete">The concrete to map to.</param>
+      <param name="generateDefaultMappingName">Whether or not to generate a name for this mapping, even if one was not found on the type.</param>
+      <param name="usePolicyInjection">Whether or not to register this type for policy injection.</param>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.TypeMapping.From">
+      <summary>
+            The type to map from.
+            </summary>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.TypeMapping.To">
+      <summary>
+            The type to map to.
+            </summary>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.TypeMapping.LifetimeManager">
+      <summary>
+            The lifetime manager to use when registering into Unity.
+            </summary>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.TypeMapping.MappingName">
+      <summary>
+            The name of the mapping to use (optional).
+            </summary>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.TypeMapping.UsePolicyInjection">
+      <summary>
+            Whether this interface should take part in policy injection.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.MappingBehaviors">
+      <summary>
+            Specifies mapping behaviours to guide the automapping process.
+            </summary>
+    </member>
+    <member name="F:Lydian.Unity.Automapper.MappingBehaviors.None">
+      <summary>
+            No custom behaviours are specified.
+            </summary>
+    </member>
+    <member name="F:Lydian.Unity.Automapper.MappingBehaviors.MultimapByDefault">
+      <summary>
+            If two types are mapped to the same interface, even if you do not specify the MultimapAttribute on the interface, multimap behaviour will be used.
+            </summary>
+    </member>
+    <member name="F:Lydian.Unity.Automapper.MappingBehaviors.CollectionRegistration">
+      <summary>
+            If an interface is multimapped, an extra registration will be made of the generic IEnumerable of T, allowing you to easily retrieve all registrations for the interface.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.TypeMappingFactory">
+      <summary>
+            Creates auto-generated mappings from which to perform registrations on.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.TypeMappingFactory.CreateMappings(System.Collections.Generic.IEnumerable{System.Type},Lydian.Unity.Automapper.MappingBehaviors)">
+      <summary>
+            Creates all available mappings from the supplied list of types using the supplied behaviours.
+            </summary>
+      <param name="types">The types from which to generate mappings.</param>
+      <param name="behaviors">The behaviors to use to guide mapping.</param>
+      <returns>The collection of mappings that have been generated.</returns>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.MappingOptions">
+      <summary>
+            Contains any options that can be used to help guide the auto-mapping process.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.MappingOptions.#ctor">
+      <summary>
+            Initializes a new instance of the MappingOptions class.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.MappingOptions.#ctor(Lydian.Unity.Automapper.MappingBehaviors)">
+      <summary>
+            Initializes a new instance of the MappingOptions class.
+            <param name="behaviors">Any custom behaviours to use when mapping.</param></summary>
+    </member>
+    <member name="P:Lydian.Unity.Automapper.MappingOptions.Behaviors">
+      <summary>
+            Any custom behaviors to use when mapping.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.TypeMappingHandler">
+      <summary>
+            Carries out registrations on the container.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.TypeMappingHandler.PerformRegistrations(Microsoft.Practices.Unity.IUnityContainer,System.Collections.Generic.IEnumerable{Lydian.Unity.Automapper.TypeMapping},Lydian.Unity.Automapper.MappingBehaviors)">
+      <summary>
+            Performs registrations using a supplied set of Mappings and guiding behaviors on a container.
+            </summary>
+      <param name="container">The cotainer to use to perform registrations.</param>
+      <param name="typeMappings">The mappings to use.</param>
+      <param name="mappingBehaviors">The behaviours to help guide the registration process.</param>
+      <returns />
+      <requires description="container is null.">container != null</requires>
+      <requires description="mappings is null.">typeMappings != null</requires>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.MappingController">
+      <summary>
+            Handles auto-mapping of interfaces and concrete types into Unity.
+            </summary>
+      <invariant>container != null</invariant>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.MappingController.#ctor(Microsoft.Practices.Unity.IUnityContainer)">
+      <summary>
+            Creates a new instance of the Registrar.
+            </summary>
+      <param name="container">The container to register mappings into.</param>
+      <requires>container != null</requires>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.MappingController.RegisterTypes(Lydian.Unity.Automapper.MappingBehaviors,System.Type[])">
+      <summary>
+            Registers types into the Unity container.
+            </summary>
+      <param name="types">The array of interfaces and concretes to map up and register.</param>
+      <param name="behaviors">The behaviors to use to guide auto-mapping.</param>
+      <requires description="types">types != null</requires>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.MappingController.RegisterAssemblies(Lydian.Unity.Automapper.MappingBehaviors,System.String[])">
+      <summary>
+            Registers types found in the supplied assemblies into the Unity container.
+            </summary>
+      <param name="assemblyNames">The list of assembly names to register types from.</param>
+      <param name="behaviors">The behaviors to use to guide auto-mapping.</param>
+      <requires>assemblyNames != null</requires>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.SingletonAttribute">
+      <summary>
+            Marks an interface as being a singleton for the purposes of registration into Unity when auto-mapping.
+            </summary>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.ExtensionMethods">
+      <summary>
+            Contains extension methods that operate over types, or collections of type, relating to automapping.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.GetGenericallyOpenInterfaces(System.Type)">
+      <summary>
+            Generates a tuple containing a comparison interface as well as a "target" interface that is bound to the type of the concrete.
+            </summary>
+      <param name="concrete">The concrete type to generate the interface tuple from.</param>
+      <returns>A tuple containing two types. Item1 = the type to compare with an interface for a match. Item2 = the type to register as the "from" interface.</returns>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.WhereInterface(System.Collections.Generic.IEnumerable{System.Type})">
+      <summary>
+            Gets all interfaces from a collection of types.
+            </summary>
+      <param name="types">The source collection of types.</param>
+      <ensures>Contract.Result&lt;Type[]&gt;() != null</ensures>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.WhereConcrete(System.Collections.Generic.IEnumerable{System.Type})">
+      <summary>
+            Gets all concrete (non-interface) types from a collection of types.
+            </summary>
+      <param name="types">The source collection of types.</param>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.IsMappable(System.Type)">
+      <summary>
+            Determines whether this type is allowed to participate in automapping.
+            </summary>
+      <param name="type">The type to check.</param>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.IsSingleton(System.Type)">
+      <summary>
+            Determines whether this type shoulde be registered into Unity as a Singleton.
+            </summary>
+      <param name="type">The type to check.</param>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.IsMultimap(System.Type)">
+      <summary>
+            Determines whether this interface can be registered into Unity against multiple named concrete implementations.
+            </summary>
+      <param name="type">The type to check.</param>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.HasPolicyInjection(System.Type)">
+      <summary>
+            Determines whether this type should be registered with Policy Injection.
+            </summary>
+      <param name="type" />
+      <returns />
+    </member>
+    <member name="M:Lydian.Unity.Automapper.ExtensionMethods.GetMapAsName(System.Type)">
+      <summary>
+            Determines the explicit mapping name that a concrete type should be registered into Unity with.
+            </summary>
+      <param name="type">The type to check.</param>
+      <returns>The mapping name. If the type does not have the MapAsAttribute, returns null.</returns>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.Mapper">
+      <summary>
+            Contains extension method entry points to the Unity Auto-mapper.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.Mapper.AutomapTypes(Microsoft.Practices.Unity.IUnityContainer,System.Type[])">
+      <summary>
+            Automatically maps and registers interfaces and concrete types into the Unity container.
+            </summary>
+      <param name="container">The container to be configured.</param>
+      <param name="types">The array of interfaces and concretes to map up and register.</param>
+      <requires description="container" exception="T:System.ArgumentNullException">container != null</requires>
+      <exception cref="T:System.ArgumentNullException">container == null</exception>
+      <requires description="types" exception="T:System.ArgumentNullException">types != null</requires>
+      <exception cref="T:System.ArgumentNullException">types == null</exception>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.Mapper.AutomapTypes(Microsoft.Practices.Unity.IUnityContainer,Lydian.Unity.Automapper.MappingOptions,System.Type[])">
+      <summary>
+            Automatically maps and registers interfaces and concrete types into the Unity container.
+            </summary>
+      <param name="container">The container to be configured.</param>
+      <param name="options">Any custom options to use as guidance when mapping.</param>
+      <param name="types">The array of interfaces and concretes to map up and register.</param>
+      <requires description="container" exception="T:System.ArgumentNullException">container != null</requires>
+      <exception cref="T:System.ArgumentNullException">container == null</exception>
+      <requires description="options" exception="T:System.ArgumentNullException">options != null</requires>
+      <exception cref="T:System.ArgumentNullException">options == null</exception>
+      <requires description="types" exception="T:System.ArgumentNullException">types != null</requires>
+      <exception cref="T:System.ArgumentNullException">types == null</exception>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.Mapper.AutomapAssemblies(Microsoft.Practices.Unity.IUnityContainer,System.String[])">
+      <summary>
+            Automatically maps and registers interfaces and concrete types found in the supplied assemblies into the Unity container.
+            </summary>
+      <param name="container">The container to be configured.</param>
+      <param name="assemblyNames">The list of full assembly names to register types from.</param>
+      <requires description="container" exception="T:System.ArgumentNullException">container != null</requires>
+      <exception cref="T:System.ArgumentNullException">container == null</exception>
+      <requires description="assemblyNames" exception="T:System.ArgumentNullException">assemblyNames != null</requires>
+      <exception cref="T:System.ArgumentNullException">assemblyNames == null</exception>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.Mapper.AutomapAssemblies(Microsoft.Practices.Unity.IUnityContainer,Lydian.Unity.Automapper.MappingOptions,System.String[])">
+      <summary>
+            Automatically maps and registers interfaces and concrete types found in the supplied assemblies into the Unity container.
+            </summary>
+      <param name="container">The container to be configured.</param>
+      <param name="options">Any custom options to use as guidance when mapping.</param>
+      <param name="assemblyNames">The list of full assembly names to register types from.</param>
+      <requires description="container" exception="T:System.ArgumentNullException">container != null</requires>
+      <exception cref="T:System.ArgumentNullException">container == null</exception>
+      <requires description="options" exception="T:System.ArgumentNullException">options != null</requires>
+      <exception cref="T:System.ArgumentNullException">options == null</exception>
+      <requires description="assemblyNames" exception="T:System.ArgumentNullException">assemblyNames != null</requires>
+      <exception cref="T:System.ArgumentNullException">assemblyNames == null</exception>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.UnityRegistrationTracker">
+      <summary>
+            Keeps track of registrations that have taken place on a Unity Container.
+            </summary>
+      <invariant>container != null</invariant>
+      <invariant>initialRegistrations != null</invariant>
+      <invariant>container.Registrations != null</invariant>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.UnityRegistrationTracker.#ctor(Microsoft.Practices.Unity.IUnityContainer)">
+      <summary>
+            Creates a new instance of the UnityRegistrationTracker and begins tracking changes immediately.
+            </summary>
+      <param name="container">The container to track changes of.</param>
+      <requires description="container is null.">container != null</requires>
+      <ensures>initialRegistrations != null</ensures>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.UnityRegistrationTracker.GetNewRegistrations">
+      <summary>
+            Gets the list of newly-added registrations since the registration tracker was created.
+            </summary>
+      <returns>The collection of new registrations.</returns>
+    </member>
+    <member name="T:Lydian.Unity.Automapper.UnityCollectionFacade`1">
+      <summary>
+            A facade on top of a Unity call to ResolveAll for a particular type.
+            </summary>
+      <typeparam name="T" />
+    </member>
+    <member name="M:Lydian.Unity.Automapper.UnityCollectionFacade`1.#ctor(Microsoft.Practices.Unity.IUnityContainer)">
+      <summary>
+            Initializes a new instance of the CollectionFacade class.
+            </summary>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.UnityCollectionFacade`1.System#Collections#IEnumerable#GetEnumerator">
+      <ensures inheritedFrom="M:System.Collections.IEnumerable.GetEnumerator" inheritedFromTypeName="IEnumerable">Contract.Result&lt;IEnumerator&gt;() != null</ensures>
+      <ensures inheritedFrom="M:System.Collections.IEnumerable.GetEnumerator" inheritedFromTypeName="IEnumerable">Contract.Result&lt;IEnumerator&gt;().Model == this.Model</ensures>
+      <ensures inheritedFrom="M:System.Collections.IEnumerable.GetEnumerator" inheritedFromTypeName="IEnumerable">Contract.Result&lt;IEnumerator&gt;().CurrentIndex == -1</ensures>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.UnityCollectionFacade`1.GetEnumerator">
+      <ensures inheritedFrom="M:System.Collections.Generic.IEnumerable`1.GetEnumerator" inheritedFromTypeName="IEnumerable">Contract.Result&lt;IEnumerator&lt;T&gt;&gt;() != null</ensures>
+      <ensures inheritedFrom="M:System.Collections.Generic.IEnumerable`1.GetEnumerator" inheritedFromTypeName="IEnumerable">Contract.Result&lt;IEnumerator&lt;T&gt;&gt;().Model == ((IEnumerable)this).Model</ensures>
+    </member>
+    <member name="M:Lydian.Unity.Automapper.TypeMappingFactory.CreateMultimapCollections(Lydian.Unity.Automapper.TypeMapping[])">
+      <requires>mappings != null</requires>
+    </member>
+  </members>
+</doc>
