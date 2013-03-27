@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lydian.Unity.CallHandlers</RootNamespace>
     <AssemblyName>Lydian.Unity.CallHandlers</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <DocumentationFile>bin\Debug\Lydian.Unity.CallHandlers.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,11 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Lydian.Unity.CallHandlers.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lydian.Unity.Automapper">
-      <HintPath>..\packages\Lydian.Unity.Automapper.1.2.0.0\lib\net40\Lydian.Unity.Automapper.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -72,7 +72,7 @@
     <Compile Include="Validation\ArgumentNotNullHandler.cs" />
     <Compile Include="Logging\CallSiteEventArgs.cs" />
     <Compile Include="Logging\IMethodLogPublisher.cs" />
-    <Compile Include="Logging\IMethodTimeListener.cs" />
+    <Compile Include="Logging\IMethodTimePublisher.cs" />
     <Compile Include="LoggingAttribute.cs" />
     <Compile Include="Logging\LoggingHandler.cs" />
     <Compile Include="TimingAttribute.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logging\TimedCallEventArgs.cs" />
     <Compile Include="Logging\TimingHandler.cs" />
-    <Compile Include="Core\UnityRegistration.cs" />
+    <Compile Include="UnityRegistration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

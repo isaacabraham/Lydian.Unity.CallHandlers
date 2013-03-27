@@ -2,7 +2,7 @@ using Lydian.Unity.CallHandlers.Caching;
 using Lydian.Unity.CallHandlers.Logging;
 using Microsoft.Practices.Unity;
 
-namespace Lydian.Unity.CallHandlers.Core
+namespace Lydian.Unity.CallHandlers
 {
 	/// <summary>
 	/// Contains key registrations for the Unity Call Handlers.

@@ -10,6 +10,11 @@ namespace Lydian.Unity.CallHandlers
 	/// </summary>
 	public class ArgumentNotNullAttribute : OrderedHandlerAttribute
 	{
+		/// <summary>
+		/// Creates the handler.
+		/// </summary>
+		/// <param name="container">The container to use to create the handler.</param>
+		/// <returns>The Argument Not Null call handler.</returns>
 		public override ICallHandler CreateHandler(IUnityContainer container)
 		{
 			return CreateHandler(container, typeof(ArgumentNotNullHandler));

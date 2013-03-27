@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace ConsoleApplication1
 {
+	//[ArgumentNotNull] Place the attribute here in order to apply to all methods.
 	public interface IMyService
 	{
 		Int32 NullableArgument(Nullable<Int32> nullableNumber);

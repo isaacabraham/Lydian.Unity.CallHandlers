@@ -12,6 +12,11 @@ namespace Lydian.Unity.CallHandlers
 	[AttributeUsage(AttributeTargets.Method)]
 	public class LoggingAttribute : OrderedHandlerAttribute
 	{
+		/// <summary>
+		/// Creates the handler.
+		/// </summary>
+		/// <param name="container">The container to use to create the handler.</param>
+		/// <returns>The Logging call handler.</returns>
 		public override ICallHandler CreateHandler(IUnityContainer container)
 		{
 			return base.CreateHandler(container, typeof(LoggingHandler));

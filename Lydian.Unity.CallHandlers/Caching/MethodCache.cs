@@ -17,7 +17,7 @@ namespace Lydian.Unity.CallHandlers.Caching
 		/// <param name="methodName">The method call.</param>
 		/// <param name="arguments">The set of arguments.</param>
 		/// <returns>A tuple containing a Boolean on whether the cache was hit, and the cached result.</returns>
-		internal Tuple<CacheHitResult, IMethodReturn> TryGetResult(String methodName, ArgumentCollection arguments)
+		public Tuple<CacheHitResult, IMethodReturn> TryGetResult(String methodName, ArgumentCollection arguments)
 		{
 			AddArgumentCacheIfRequired(methodName);
 
@@ -35,7 +35,7 @@ namespace Lydian.Unity.CallHandlers.Caching
 		/// <param name="methodName">The method name.</param>
 		/// <param name="arguments">The set of arguments.</param>
 		/// <param name="result">The result of the call to cache.</param>
-		internal void AddToCache(String methodName, ArgumentCollection arguments, IMethodReturn result)
+		public void AddToCache(String methodName, ArgumentCollection arguments, IMethodReturn result)
 		{
 			callSiteCache[methodName][arguments] = result;
 		}

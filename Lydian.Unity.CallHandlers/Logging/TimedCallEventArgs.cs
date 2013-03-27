@@ -8,6 +8,9 @@ namespace Lydian.Unity.CallHandlers.Logging
 	/// </summary>
 	public class TimedCallEventArgs : CallSiteEventArgs
 	{
+		/// <summary>
+		/// The length of time that the method call took.
+		/// </summary>
 		public TimeSpan CallDuration { get; private set; }
 
 		/// <summary>

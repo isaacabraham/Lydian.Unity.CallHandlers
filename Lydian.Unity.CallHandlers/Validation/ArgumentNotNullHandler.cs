@@ -8,8 +8,17 @@ namespace Lydian.Unity.CallHandlers.Validation
 	/// </summary>
 	public class ArgumentNotNullHandler : ICallHandler
 	{
+		/// <summary>
+		/// Order in which the handler will be executed.
+		/// </summary>
 		public Int32 Order { get; set; }
 
+		/// <summary>
+		/// Invokes the Argument Not Null Handler.
+		/// </summary>
+		/// <param name="input">Inputs to the current call to the target.</param>
+		/// <param name="getNext">Delegate to execute to get the next delegate in the handler chain.</param>
+		/// <returns>Return value from the target.</returns>
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
 		{
 			for (int i = 0; i < input.Inputs.Count; i++)

@@ -11,17 +11,27 @@ namespace Lydian.Unity.CallHandlers.Caching
     public class CachingHandler : ICallHandler
     {
 		private readonly MethodCache cache;
+		/// <summary>
+		/// Order in which the handler will be executed.
+		/// </summary>
 		public Int32 Order { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the CachingHandler class.
 		/// </summary>
-		/// <param name="cache"></param>
+		/// <param name="container">The Unity Container.</param>
 		public CachingHandler(IUnityContainer container)
 		{
 			this.cache = container.Resolve<MethodCache>();
 		}
 
+
+		/// <summary>
+		/// Invokes the Caching Handler.
+		/// </summary>
+		/// <param name="input">Inputs to the current call to the target.</param>
+		/// <param name="getNext">Delegate to execute to get the next delegate in the handler chain.</param>
+		/// <returns>Return value from the target.</returns>
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
 		{
 			var methodName = String.Format("{0}.{1}", input.Target.GetType().FullName, input.MethodBase.Name);

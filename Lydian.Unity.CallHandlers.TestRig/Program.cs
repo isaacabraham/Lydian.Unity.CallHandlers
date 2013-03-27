@@ -1,5 +1,4 @@
-﻿using Lydian.Unity.CallHandlers.Core;
-using Lydian.Unity.CallHandlers.Logging;
+﻿using Lydian.Unity.CallHandlers;
 using Lydian.Unity.CallHandlers.Validation;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
@@ -15,18 +14,18 @@ namespace ConsoleApplication1
 			{
 				container.AddNewExtension<Interception>();
 
-				// Illustrates how to put the ArgumentNotNullHandler on every method. You could of course change this policy or simply use the ArgumentNotNullAttribute explicitly.
+				//// Illustrates how to put the ArgumentNotNullHandler on every method. You could of course change this policy or simply use the ArgumentNotNullAttribute explicitly.
 				container.Configure<Interception>()
 						 .AddPolicy("ArgumentNotNull")
 						 .AddCallHandler<ArgumentNotNullHandler>()
 						 .AddMatchingRule(new MemberNameMatchingRule("*"));
-				
+
 				// Required to use Unity Call Handlers.
 				UnityRegistration.Register(container);
 
 				// Sample subscribers			
 				new SampleSubscriber().Subscribe(container);
-				
+
 				// Create our container
 				container.RegisterType<IMyService, MyService>(new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<InterfaceInterceptor>());
 				var service = container.Resolve<IMyService>();

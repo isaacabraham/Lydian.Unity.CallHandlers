@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Lydian.Unity.CallHandlers</id>
+    <version>1.0.0.0</version>
+    <title>Unity CallHandlers</title>
+    <authors>Lydian Consulting</authors>
+    <owners>Lydian Consulting</owners>
+    <description>Creating your own cross-cutting call handlers can be a time-consuming task. This package contains several common call handlers to get you started.</description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>A set of common cross-cutting concerns for use with the Unity Container.</summary>
+    <language>en-GB</language>
+    <projectUrl>https://github.com/isaacabraham/Lydian.Unity.CallHandlers</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>Copyright 2013</copyright>
+    <references></references>
+    <tags>unity callhandlers interception logging validation</tags>
+  </metadata>
+</package>
