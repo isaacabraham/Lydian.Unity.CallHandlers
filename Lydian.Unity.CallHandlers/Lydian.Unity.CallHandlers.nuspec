@@ -3,7 +3,7 @@
   <metadata>
     <id>Lydian.Unity.CallHandlers</id>
     <version>1.0.0.0</version>
-    <title>Unity CallHandlers</title>
+    <title>Unity Call Handlers</title>
     <authors>Lydian Consulting</authors>
     <owners>Lydian Consulting</owners>
     <description>Creating your own cross-cutting call handlers can be a time-consuming task. This package contains several common call handlers to get you started.</description>

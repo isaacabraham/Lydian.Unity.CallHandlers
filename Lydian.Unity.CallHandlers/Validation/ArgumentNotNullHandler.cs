@@ -21,12 +21,12 @@ namespace Lydian.Unity.CallHandlers.Validation
 		/// <returns>Return value from the target.</returns>
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
 		{
-			for (int i = 0; i < input.Inputs.Count; i++)
+			for (int argument = 0; argument < input.Inputs.Count; argument++)
 			{
-				if (input.Inputs[i] != null)
+				if (input.Inputs[argument] != null)
 					continue;
 
-				var parameterInfo = input.Inputs.GetParameterInfo(i);
+				var parameterInfo = input.Inputs.GetParameterInfo(argument);
 
 				if (parameterInfo.ParameterType.IsValueType ||
 					parameterInfo.IsOptional)

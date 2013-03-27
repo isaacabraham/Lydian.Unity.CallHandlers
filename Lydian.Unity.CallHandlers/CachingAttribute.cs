@@ -1,4 +1,3 @@
-using Lydian.Unity.CallHandlers.Core;
 using Lydian.Unity.CallHandlers.Caching;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
@@ -9,8 +8,8 @@ namespace Lydian.Unity.CallHandlers
 	/// <summary>
 	/// Applies the CachingHandler onto the specified method.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Method)]
-	public class CachingAttribute : OrderedHandlerAttribute
+	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface | AttributeTargets.Class)]
+	public class CachingAttribute : HandlerAttribute
 	{
 		/// <summary>
 		/// Creates the handler.
@@ -19,7 +18,7 @@ namespace Lydian.Unity.CallHandlers
 		/// <returns>The Caching call handler.</returns>
 		public override ICallHandler CreateHandler(IUnityContainer container)
 		{
-			return base.CreateHandler(container, typeof(CachingHandler));
+			return container.CreateCallHandler<CachingHandler>(Order);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using Lydian.Unity.CallHandlers.Core;
 using Lydian.Unity.CallHandlers.Logging;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
@@ -9,8 +8,8 @@ namespace Lydian.Unity.CallHandlers
 	/// <summary>
 	/// Applies the TimingHandler onto the specified method.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Method)]
-	public class TimingAttribute : OrderedHandlerAttribute
+	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface | AttributeTargets.Class)]
+	public class TimingAttribute : HandlerAttribute
 	{
 		/// <summary>
 		/// Creates the handler.
@@ -19,7 +18,7 @@ namespace Lydian.Unity.CallHandlers
 		/// <returns>The Timing call handler.</returns>
 		public override ICallHandler CreateHandler(IUnityContainer container)
 		{
-			return base.CreateHandler(container, typeof(TimingHandler));
+			return container.CreateCallHandler<TimingHandler>(Order);
 		}
 	}
 }
