@@ -4,9 +4,9 @@
     <id>Lydian.Unity.CallHandlers</id>
     <version>1.0.0.0</version>
     <title>Unity Call Handlers</title>
-    <authors>Lydian Consulting</authors>
-    <owners>Lydian Consulting</owners>
-    <description>Creating your own cross-cutting call handlers can be a time-consuming task. This package contains several common call handlers to get you started.</description>
+    <authors>Isaac Abraham</authors>
+    <owners>Isaac Abraham</owners>
+    <description>Creating your own cross-cutting call handlers in Unity can be a time-consuming task. This package contains several common call handlers to get you started, including logging and call caching handlers.</description>
     <releaseNotes>
     </releaseNotes>
     <summary>A set of common cross-cutting concerns for use with the Unity Container.</summary>
@@ -17,6 +17,6 @@
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
     <copyright>Copyright 2013</copyright>
     <references></references>
-    <tags>unity callhandlers interception logging validation</tags>
+    <tags>unity ioc di callhandlers interception logging validation caching</tags>
   </metadata>
 </package>

@@ -14,16 +14,16 @@ namespace ConsoleApplication1
 			{
 				container.AddNewExtension<Interception>();
 
-				//// Illustrates how to put the ArgumentNotNullHandler on every method. You could of course change this policy or simply use the ArgumentNotNullAttribute explicitly.
+				// Illustrates how to put the ArgumentNotNullHandler on every method. You could of course change this policy or simply use the ArgumentNotNullAttribute explicitly.
 				container.Configure<Interception>()
 						 .AddPolicy("ArgumentNotNull")
 						 .AddCallHandler<ArgumentNotNullHandler>()
 						 .AddMatchingRule(new MemberNameMatchingRule("*"));
 
 				// Required to use Unity Call Handlers.
-				UnityRegistration.Register(container);
+				CallHandlerInitialiser.RegisterCallHandlerDependencies(container);
 
-				// Sample subscribers			
+				// Sample subscribers
 				new SampleSubscriber().Subscribe(container);
 
 				// Create our container

@@ -15,7 +15,7 @@ namespace Lydian.Unity.CallHandlers.Tests.AttributeTests
 		{
 			loggingAttribute = new LoggingAttribute();
 			unityContainer = new UnityContainer();
-			UnityRegistration.Register(unityContainer);
+			CallHandlerInitialiser.RegisterCallHandlerDependencies(unityContainer);
 		}
 
 		[TestMethod]

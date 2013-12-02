@@ -80,7 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logging\TimedCallEventArgs.cs" />
     <Compile Include="Logging\TimingHandler.cs" />
-    <Compile Include="UnityRegistration.cs" />
+    <Compile Include="CallHandlerInitialiser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lydian.Unity.CallHandlers.nuspec" />

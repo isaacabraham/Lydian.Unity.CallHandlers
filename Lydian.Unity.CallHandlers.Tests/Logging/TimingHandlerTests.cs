@@ -14,7 +14,7 @@ namespace Lydian.Unity.CallHandlers.Tests.Logging
 		public void Setup()
 		{
 			container = new UnityContainer();
-			UnityRegistration.Register(container);
+			CallHandlerInitialiser.RegisterCallHandlerDependencies(container);
 			HandlerHelpers.RegisterTypeWithCallHandler<TimingHandler, SampleTimingClass>(container);
 			publisher = container.Resolve<IMethodTimePublisher>();
 		}
