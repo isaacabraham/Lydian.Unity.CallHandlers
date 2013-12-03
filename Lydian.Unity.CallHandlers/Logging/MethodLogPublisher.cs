@@ -7,13 +7,11 @@ namespace Lydian.Unity.CallHandlers.Logging
 	/// </summary>
 	internal class MethodLogPublisher : IMethodLogPublisher
 	{
-		public event EventHandler<CallSiteEventArgs> OnMethodStarted;
-		public event EventHandler<CallSiteEventArgs> OnMethodCompleted;
+		public event EventHandler<CallSiteEventArgs> OnLogMessage;
 
-		internal void FireStarted(CallSiteEventArgs args) { FireEvent(args, OnMethodStarted); }
-		internal void FireCompleted(CallSiteEventArgs args) { FireEvent(args, OnMethodCompleted); }
+		internal void Trigger(CallSiteEventArgs args) { Trigger(args, OnLogMessage); }
 
-		private void FireEvent(CallSiteEventArgs args, EventHandler<CallSiteEventArgs> handler)
+		private void Trigger(CallSiteEventArgs args, EventHandler<CallSiteEventArgs> handler)
 		{
 			if (handler != null)
 				handler(this, args);

@@ -7,12 +7,8 @@ namespace Lydian.Unity.CallHandlers.Logging
 	public interface IMethodLogPublisher
 	{
 		/// <summary>
-		/// Fired whenever a method call begins.
+		/// Fired whenever a method call begins or ends.
 		/// </summary>
-		event EventHandler<CallSiteEventArgs> OnMethodStarted;
-		/// <summary>
-		/// Fired whenever a method call completes.
-		/// </summary>
-		event EventHandler<CallSiteEventArgs> OnMethodCompleted;
+		event EventHandler<CallSiteEventArgs> OnLogMessage;
 	}
 }

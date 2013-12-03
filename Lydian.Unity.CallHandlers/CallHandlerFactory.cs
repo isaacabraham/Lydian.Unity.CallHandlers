@@ -16,7 +16,7 @@ namespace Lydian.Unity.CallHandlers
 		/// <param name="order">The order of the handler.</param>
 		/// <typeparam name="TCallHandler">The type of call handler to construct.</typeparam>
 		/// <returns>The created call handler.</returns>
-		public static ICallHandler CreateCallHandler<TCallHandler>(this IUnityContainer container, Int32 order) where TCallHandler : ICallHandler
+		public static TCallHandler CreateCallHandler<TCallHandler>(this IUnityContainer container, Int32 order) where TCallHandler : ICallHandler
 		{
 			var handler = container.Resolve<TCallHandler>();
 			handler.Order = order;

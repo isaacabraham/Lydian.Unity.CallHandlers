@@ -2,13 +2,12 @@
 <package >
   <metadata>
     <id>Lydian.Unity.CallHandlers</id>
-    <version>1.0.0.0</version>
+    <version>1.1.0.0</version>
     <title>Unity Call Handlers</title>
     <authors>Isaac Abraham</authors>
     <owners>Isaac Abraham</owners>
     <description>Creating your own cross-cutting call handlers in Unity can be a time-consuming task. This package contains several common call handlers to get you started, including logging and call caching handlers.</description>
-    <releaseNotes>
-    </releaseNotes>
+    <releaseNotes>Better parameterisation of logging Call Handler.</releaseNotes>
     <summary>A set of common cross-cutting concerns for use with the Unity Container.</summary>
     <language>en-GB</language>
     <projectUrl>https://github.com/isaacabraham/Lydian.Unity.CallHandlers</projectUrl>
