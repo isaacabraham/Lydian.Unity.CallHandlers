@@ -1,5 +1,7 @@
 using Microsoft.Practices.Unity.InterceptionExtension;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lydian.Unity.CallHandlers.Logging
 {
@@ -8,6 +10,7 @@ namespace Lydian.Unity.CallHandlers.Logging
     /// </summary>
     public sealed class LoggingHandler : ICallHandler
     {
+        private readonly static Type asyncStateMachineAttribute = Type.GetType("System.Runtime.CompilerServices.AsyncStateMachineAttribute");
         private readonly MethodLogPublisher publisher;
 
         /// <summary>
@@ -22,6 +25,7 @@ namespace Lydian.Unity.CallHandlers.Logging
         /// An optional message to publish on exiting the target method.
         /// </summary>
         public String CompletionMessage { get; set; }
+
         /// <summary>
         /// Creates a new instance of the Logging Handler.
         /// </summary>
@@ -41,9 +45,28 @@ namespace Lydian.Unity.CallHandlers.Logging
         {
             publisher.Trigger(new CallSiteEventArgs(input.Target, input.MethodBase, MethodEventType.Entry, StartMessage));
             var result = getNext()(input, getNext);
-            publisher.Trigger(new CallSiteEventArgs(input.Target, input.MethodBase, MethodEventType.Exit, CompletionMessage));
+            
+            var asyncTask = TryGetAsyncReturnTask(input, result);
+            
+            if (asyncTask == null)
+                OnComplete(input);
+            else
+                asyncTask.ContinueWith(t => OnComplete(input));
 
             return result;
+        }
+
+        private void OnComplete(IMethodInvocation input)
+        {
+            publisher.Trigger(new CallSiteEventArgs(input.Target, input.MethodBase, MethodEventType.Exit, CompletionMessage));
+        }
+
+        private static Task TryGetAsyncReturnTask(IMethodInvocation input, IMethodReturn result)
+        {
+            var taskResult = result.ReturnValue as Task;
+            var isAsync = taskResult != null &&
+                          input.MethodBase.GetCustomAttributes(asyncStateMachineAttribute, true).Any();
+            return isAsync ? taskResult : null;
         }
     }
 }
