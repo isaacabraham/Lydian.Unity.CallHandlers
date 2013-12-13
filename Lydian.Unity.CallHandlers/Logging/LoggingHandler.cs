@@ -1,6 +1,7 @@
 using Microsoft.Practices.Unity.InterceptionExtension;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Lydian.Unity.CallHandlers.Logging
@@ -65,8 +66,23 @@ namespace Lydian.Unity.CallHandlers.Logging
         {
             var taskResult = result.ReturnValue as Task;
             var isAsync = taskResult != null &&
-                          input.MethodBase.GetCustomAttributes(asyncStateMachineAttribute, true).Any();
+                          GetExecutingMethod(input).GetCustomAttributes(asyncStateMachineAttribute, true)
+                                                   .Any();
             return isAsync ? taskResult : null;
+        }
+
+        private static MethodBase GetExecutingMethod(IMethodInvocation input)
+        {
+            /* For interface-based interception, MethodBase will point to the interface declaration rather than the concrete.
+             * We need the concrete to check for the existence of the AsyncStateMachingAttribute. This, however, doesn't apply
+             * for virtual-method style interception!
+            */
+            return input.MethodBase.DeclaringType.IsInterface ?
+                        input.Target.GetType()
+                                    .GetMethod(input.MethodBase.Name, input.MethodBase.GetParameters()
+                                                                                      .Select(p => p.ParameterType)
+                                                                                      .ToArray()) :
+                        input.MethodBase;
         }
     }
 }

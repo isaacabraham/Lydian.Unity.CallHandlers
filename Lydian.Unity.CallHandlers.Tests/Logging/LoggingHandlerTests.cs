@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,7 +21,8 @@ namespace Lydian.Unity.CallHandlers.Tests.Logging
             container.AddNewExtension<Interception>();
             CallHandlerInitialiser.RegisterCallHandlerDependencies(container);
             HandlerHelpers.RegisterTypeWithCallHandler<LoggingHandler, SampleLoggingClass>(container);
-            HandlerHelpers.RegisterTypeWithCallHandler<LoggingHandler, AsyncClass>(container, false);
+            HandlerHelpers.RegisterTypeWithCallHandler<LoggingHandler, AsyncVirtualClass>(container, false);
+            container.RegisterType<IAsyncClass, IAsyncClassImplementation>(new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<InterfaceInterceptor>());
             publisher = container.Resolve<IMethodLogPublisher>();
         }
 
@@ -97,57 +99,82 @@ namespace Lydian.Unity.CallHandlers.Tests.Logging
         }
 
         [TestMethod]
-        public async Task AsyncMethodCalled_TaskHasNotCompleted_DoesNotFireExitEvent()
+        public async Task VirtualClassWithAsyncMethodCalled_TaskHasNotCompleted_DoesNotFireExitEvent()
         {
-            var sample = container.Resolve<AsyncClass>();
-            var exitReceived = false;
-            publisher.OnLogMessage += (o, e) => { if (e.MethodEventType == MethodEventType.Exit) exitReceived = true; };
-
             // Act
-            sample.Foo();
-
-            // Wait 100 ms for the Continuation in the Handler to complete.
-            await Task.Delay(1000);
+            var firedEvent = await DoAsyncCall<AsyncVirtualClass>(x => x.AwaitingMethod(), false);
 
             // Assert
-            Assert.IsFalse(exitReceived);
+            Assert.IsFalse(firedEvent);
         }
 
         [TestMethod]
-        public async Task AsyncMethodCalled_TaskHasCompleted_FiresExitEvent()
+        public async Task VirtualClassWithAsyncMethodCalled_TaskHasCompleted_FiresExitEvent()
         {
-            var sample = container.Resolve<AsyncClass>();
-            sample.Done.TrySetResult(true);
-            var exitReceived = false;
-            publisher.OnLogMessage += (o, e) => { if (e.MethodEventType == MethodEventType.Exit) exitReceived = true; };
-
             // Act
-            sample.Foo();
-
-            // Wait 100 ms for the Continuation in the Handler to complete.
-            await Task.Delay(100);
+            var firedEvent = await DoAsyncCall<AsyncVirtualClass>(x => x.AwaitingMethod(), true);
 
             // Assert
-            Assert.IsTrue(exitReceived);
+            Assert.IsTrue(firedEvent);
         }
 
         [TestMethod]
-        public async Task MethodReturningTaskCalled_TaskHasNotCompleted_FiresExitEvent()
+        public async Task VirtualClassWithMethodReturningTask_TaskHasNotCompleted_FiresExitEvent()
         {
-            var sample = container.Resolve<AsyncClass>();
-            var exitReceived = false;
-            publisher.OnLogMessage += (o, e) => { if (e.MethodEventType == MethodEventType.Exit) exitReceived = true; };
-
             // Act
-            sample.Bar();
-
-            // Wait 100 ms for the Continuation in the Handler to complete.
-            await Task.Delay(100);
+            var firedEvent = await DoAsyncCall<AsyncVirtualClass>(x => x.TaskGeneratingMethod(), false);
 
             // Assert
-            Assert.IsTrue(exitReceived);
+            Assert.IsTrue(firedEvent);
         }
 
+        [TestMethod]
+        public async Task InterfaceWithAsyncMethod_TaskHasNotCompleted_DoesNotFireExitEvent()
+        {
+            // Act
+            var firedEvent = await DoAsyncCall<IAsyncClass>(x => x.AwaitingMethod(), false);
+
+            // Assert
+            Assert.IsFalse(firedEvent);
+        }
+
+        [TestMethod]
+        public async Task InterfaceWithAsyncMethod_TaskHasCompleted_FiresExitEvent()
+        {
+            // Act
+            var firedEvent = await DoAsyncCall<IAsyncClass>(x => x.AwaitingMethod(), true);
+
+            // Assert
+            Assert.IsTrue(firedEvent);
+        }
+
+        [TestMethod]
+        public async Task InterfaceWithAsyncTaskReturningMethod_TaskHasNotCompleted_FiresExitEvent()
+        {
+            // Act
+            var firedEvent = await DoAsyncCall<IAsyncClass>(x => x.TaskGeneratingMethod(), true);
+
+            // Assert
+            Assert.IsTrue(firedEvent);
+        }
+
+        private async Task<bool> DoAsyncCall<TTypeToResolve>(Action<TTypeToResolve> action, bool shouldExitEventFire) where TTypeToResolve : IAsyncClass
+        {
+            var sample = container.Resolve<TTypeToResolve>();
+            var exitReceived = false;
+            publisher.OnLogMessage += (o, e) => { if (e.MethodEventType == MethodEventType.Exit) exitReceived = true; };
+            if (shouldExitEventFire)
+                sample.Done.SetResult(true);
+
+            // Act
+            action(sample);
+
+            // Wait 100 ms for the Continuation in the Handler to complete.
+            await Task.Delay(250);
+
+            // Assert
+            return exitReceived;
+        }
         public class SampleLoggingClass
         {
             public virtual void Foo() { }
@@ -155,23 +182,49 @@ namespace Lydian.Unity.CallHandlers.Tests.Logging
             public virtual void Bar() { }
         }
 
-        public class AsyncClass
+        public interface IAsyncClass
         {
-            public TaskCompletionSource<bool> Done { get; set; }
-
-            public AsyncClass()
+            Task TaskGeneratingMethod();
+            TaskCompletionSource<bool> Done { get; set; }
+            Task AwaitingMethod();
+        }
+        public class IAsyncClassImplementation : IAsyncClass
+        {
+            public IAsyncClassImplementation()
             {
                 Done = new TaskCompletionSource<bool>();
             }
 
             [Logging]
-            public async virtual Task Foo()
+            public Task TaskGeneratingMethod()
+            {
+                return new TaskCompletionSource<bool>().Task;
+            }
+            public TaskCompletionSource<bool> Done { get; set; }
+            [Logging]
+            public async Task AwaitingMethod()
+            {
+                await Done.Task;
+            }
+        }
+
+        public class AsyncVirtualClass : IAsyncClass
+        {
+            public TaskCompletionSource<bool> Done { get; set; }
+
+            public AsyncVirtualClass()
+            {
+                Done = new TaskCompletionSource<bool>();
+            }
+
+            [Logging]
+            public virtual async Task AwaitingMethod()
             {
                 await Done.Task;
             }
 
             [Logging]
-            public virtual Task Bar()
+            public virtual Task TaskGeneratingMethod()
             {
                 return new TaskCompletionSource<bool>().Task;
             }
